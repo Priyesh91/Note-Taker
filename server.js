@@ -12,4 +12,8 @@ app.use(express.urlencoded({extended: true}));
 // set up routes
 app.use(routes);
 
+//making sure html js files are loaded with html
+app.use(express.static("public"));
+
+
 app.listen(PORT, () => console.log(`🐶 => You're on ${PORT}`));
