@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const db = require("../../config/connection");
 
-router.get("/api/notes", function (req, res) {
+router.get("/", function (req, res) {
   // query database for all notes and send back as json
   db.query("SELECT * FROM notes", function (err, dbNotes) {
     if (err) throw err;
@@ -12,9 +12,10 @@ router.get("/api/notes", function (req, res) {
   });
 });
 
-router.post("/api/notes", function (req, res) {
+router.post("/", function (req, res) {
   // INSERT into database the data coming from req.body
-  db.query("INSERT INTO notes SET ?", req.body, function (err, dbNotes) {
+  db.query("INSERT INTO notes SET ?", [req.body], function (err, dbNotes) {
+    if (err) throw err;
     res.json(dbNotes);
   });
 });
@@ -23,9 +24,9 @@ router.put("/:id", function (req, res) {
   // UPDATE database setting req.body WHERE id = req.params.id
 });
 
-router.delete("/api/notes/:id", function (req, res) {
+router.delete("/:id", function (req, res) {
   // DELETE from database where id = req.params.id
-  db.query("DELETE FROM notes WHERE ?", {id:req.params.id}, function(err, dbNotes) {
+  db.query("DELETE FROM notes WHERE id = ?", [req.params.id], function(err, dbNotes) {
     if (err) throw err;
     res.json(dbNotes);
   });
